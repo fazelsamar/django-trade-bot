@@ -1,17 +1,14 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-from django.contrib.auth import get_user_model
+
+from utils.abstract_models import UserBaseModel
 
 from .utils.oprations import (
     subtraction_two_float,
     sum_two_float,
 )
 
-User = get_user_model()
-
-class WalletBaseModel(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
+class WalletBaseModel(UserBaseModel):
     rial = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
 
     btc = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
@@ -19,12 +16,6 @@ class WalletBaseModel(models.Model):
     usdt = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
 
     eth = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self) -> str:
-        return str(self.user)
 
     @staticmethod
     def subtract_from_wallet_obj_by_variable_name(wallet_obj, value, variable_name):
