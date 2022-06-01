@@ -2,6 +2,9 @@ from django.db import models
 from django.core.validators import MinValueValidator
 
 from utils.abstract_models import UserBaseModel
+from utils.variables import (
+    WALLET_LIST_OPTIONS,
+)
 
 from .utils.oprations import (
     subtraction_two_float,
@@ -9,13 +12,12 @@ from .utils.oprations import (
 )
 
 class WalletBaseModel(UserBaseModel):
-    rial = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
-
-    btc = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
-
-    usdt = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
-
-    eth = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
+    """Wallet Abstract Base Model"""
+    
+    for wallet_option in WALLET_LIST_OPTIONS:
+        vars()[wallet_option] = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
+        # Will creates like:
+        # btc = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
 
     @staticmethod
     def subtract_from_wallet_obj_by_variable_name(wallet_obj, value, variable_name):
