@@ -14,8 +14,8 @@ from .utils.oprations import (
 class WalletBaseModel(UserBaseModel):
     """Wallet Abstract Base Model"""
     
-    for wallet_option in WALLET_LIST_OPTIONS:
-        vars()[wallet_option] = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
+    for wallet_attribute in WALLET_LIST_OPTIONS:
+        vars()[wallet_attribute] = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
         # Will creates like:
         # btc = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
 
