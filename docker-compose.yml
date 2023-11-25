@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15.3-alpine
+    hostname: ${DATABASE_HOST}
+    container_name: exchange-postgres
+    command: -p ${DATABASE_PORT} # Change the default port
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+    env_file:
+      - ".env"
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.2.2-alpine
+    hostname: redis
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+
+volumes:
+  postgres:
+  redis:
