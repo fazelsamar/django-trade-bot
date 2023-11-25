@@ -3,4 +3,4 @@ WALLET_LIST_OPTIONS = [
     'btc',
     'usdt',
     'eth',
-] # Changing this list will change the databse structure.
+]  # Changing this list will change the database structure.

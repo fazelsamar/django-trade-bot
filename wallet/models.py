@@ -11,9 +11,10 @@ from .utils.oprations import (
     sum_two_float,
 )
 
+
 class WalletBaseModel(UserBaseModel):
     """Wallet Abstract Base Model"""
-    
+
     for wallet_attribute in WALLET_LIST_OPTIONS:
         vars()[wallet_attribute] = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
         # Will creates like:
