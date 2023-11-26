@@ -15,39 +15,34 @@ from .utils.oprations import (
 User = get_user_model()
 
 
-class WalletBaseModel(BaseModel):
-    """Wallet Abstract Base Model"""
+class Wallet(models.Model):
+    """Will Save Total Amount Of User Money
+       Blocked Money Can Be Used In Trade Section Or Withdraw Section.
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wallet")
 
     for wallet_attribute in WALLET_LIST_OPTIONS:
         vars()[wallet_attribute] = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
         """Will creates like:
         btc = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])"""
 
-    @staticmethod
-    def subtract_from_wallet_obj_by_variable_name(wallet_obj, value, variable_name):
-        pre_value = wallet_obj.__getattribute__(variable_name)
+        vars()["blocked_" + wallet_attribute] = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
+        """Will creates like:
+        blocked_btc = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])"""
+
+    def subtract_from_wallet_obj_by_variable_name(self, value, variable_name):
+        pre_value = self.__getattribute__(variable_name)
         final_value = subtraction_two_float(pre_value, value)
-        wallet_obj.__setattr__(variable_name, final_value)
-        return wallet_obj
+        self.__setattr__(variable_name, final_value)
+        return self
+
+    def add_to_wallet_obj_by_variable_name(self, value, variable_name):
+        pre_value = self.__getattribute__(variable_name)
+        final_value = sum_two_float(pre_value, value)
+        self.__setattr__(variable_name, final_value)
+        return self
 
     @staticmethod
-    def add_to_wallet_obj_by_variable_name(wallet_obj, value, variable_name):
-        pre_value = wallet_obj.__getattribute__(variable_name)
-        final_value = sum_two_float(pre_value, value)
-        wallet_obj.__setattr__(variable_name, final_value)
-        return wallet_obj
-
-    class Meta:
-        abstract = True
-
-
-class Wallet(WalletBaseModel):
-    """Will Save Total Amount Of User Money"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wallet")
-
-
-class BlockedWallet(WalletBaseModel):
-    """Will Save Total Amount Of User Blocked Money. 
-       Blocked Money Can Be Used In Trade Section Or Withdraw Section.
-    """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blocked_wallet")
+    def get_user_wallet(user):
+        wallet, _ = Wallet.objects.get_or_create(user=user)
+        return wallet
