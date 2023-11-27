@@ -11,7 +11,4 @@ class WalletBalanceViewSet(ListModelMixin, GenericViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
-        res = {
-            "wallet": serializers.WalletSerializer(instance=Wallet.get_user_wallet(user=request.user)).data,
-        }
-        return Response(res)
+        return Response(serializers.WalletSerializer(instance=Wallet.get_user_wallet(user=request.user)).data)

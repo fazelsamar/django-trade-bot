@@ -30,13 +30,13 @@ class Wallet(BaseModel):
         """Will creates like:
         blocked_btc = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])"""
 
-    def subtract_from_wallet_obj_by_variable_name(self, value, variable_name):
+    def subtract_from_wallet_balance_by_variable_name(self, variable_name, value):
         pre_value = self.__getattribute__(variable_name)
         final_value = subtraction_two_float(pre_value, value)
         self.__setattr__(variable_name, final_value)
         return self
 
-    def add_to_wallet_obj_by_variable_name(self, value, variable_name):
+    def add_to_wallet_balance_by_variable_name(self, variable_name, value):
         pre_value = self.__getattribute__(variable_name)
         final_value = sum_two_float(pre_value, value)
         self.__setattr__(variable_name, final_value)
