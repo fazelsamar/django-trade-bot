@@ -15,7 +15,7 @@ from .utils.oprations import (
 User = get_user_model()
 
 
-class Wallet(models.Model):
+class Wallet(BaseModel):
     """Will Save Total Amount Of User Money
        Blocked Money Can Be Used In Trade Section Or Withdraw Section.
     """
