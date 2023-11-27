@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext as _
 
 from utils.abstract_models import BaseModel
 from utils.variables import (
@@ -15,11 +16,18 @@ from .utils.oprations import (
 User = get_user_model()
 
 
+class WalletTypeChoices(models.TextChoices):
+    Rial = '0', _('Rial')
+    BTC = '1', _('BTC')
+    USDT = '2', _('USDT')
+    ETH = '3', _('ETH')
+
+
 class Wallet(BaseModel):
     """Will Save Total Amount Of User Money
        Blocked Money Can Be Used In Trade Section Or Withdraw Section.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wallet")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="wallet")
 
     for wallet_attribute in WALLET_LIST_OPTIONS:
         vars()[wallet_attribute] = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])

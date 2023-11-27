@@ -15,7 +15,7 @@ User = get_user_model()
 class TestWalletBalance(APITestCase):
     def setUp(self):
         self.user = baker.make(User)
-        self.wallet = self.user.wallet.first()
+        self.wallet = self.user.wallet
         token = Token.objects.create(user=self.user)
 
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
